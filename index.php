@@ -7,8 +7,8 @@ error_reporting(E_ALL);
 
 $dblink=db_connect();
 
-$email = $_POST["email"];
-$password = $_POST["password"];
+$email = $_GET["email"];
+$password = $_GET["password"];
 $sql = "SELECT * FROM user WHERE Email = '$email' AND Password = '$password'";
 $result = $dblink->query($sql);
 
