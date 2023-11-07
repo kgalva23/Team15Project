@@ -90,7 +90,7 @@ echo "<pre>" . print_r($_SESSION, true) . "</pre>";
         required
       /><br /><br />
 
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Submit" /><br />
       <a href="index.php">Already have an account?</a>
     </form>
     <?php
