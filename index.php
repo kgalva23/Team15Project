@@ -13,6 +13,8 @@ if (isset($_SESSION['userid']) && $_SESSION['userid'])
     exit();
 }
 
+echo "<pre>" . print_r($_SESSION, true) . "</pre>";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dblink=db_connect();
     $email = $_POST["email"];

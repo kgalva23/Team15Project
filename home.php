@@ -1,4 +1,5 @@
 <?php
+include("functions.php");
 session_start();
 
 ini_set('display_errors', 1);
@@ -7,15 +8,10 @@ error_reporting(E_ALL);
 
 session_start();
 
-if (!isset($_SESSION['userid']) && !$_SESSION['userid'])
-{
-    header("Location: /index.php");
-    exit();
-}
+not_logged();
 
 echo "<pre>" . print_r($_SESSION, true) . "</pre>";
-echo "<pre>" . print_r($_COOKIE, true) . "</pre>";
-echo "<pre>" . print_r($_SERVER, true) . "</pre>";
+
 ?>
 
 <html>

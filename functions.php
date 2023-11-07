@@ -12,4 +12,11 @@ function db_connect()
 	}
 	return $dblink;
 }
+function not_logged(){
+	if (!isset($_SESSION['userid']) && !$_SESSION['userid'])
+	{
+    	header("Location: /index.php");
+    	exit();
+	}
+	}
 ?>
