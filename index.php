@@ -66,7 +66,7 @@ $dblink->close();
         required
       /><br />
       <input type="submit" value="Login" /><br />
-      <a href="registration.html">Don't have an account?</a>
+      <a href="registration.php">Don't have an account?</a>
     </form>
     <?php
       if (isset($_SESSION['error'])) {
