@@ -20,20 +20,66 @@ if ($result->num_rows > 0) {
     $first_name = $_POST["first_name"];
     $last_name = $_POST["last_name"];
     $email = $_POST["email"];
-    $password = $_POST["password"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $phone_number = $_POST["phone_number"];
     $sql = "INSERT INTO user (First_Name, Last_Name, Email, Password, Phone_Number) VALUES ('$first_name', '$last_name', '$email', '$password', '$phone_number')";
 
     if ($dblink->query($sql) === TRUE) {
         //echo "New user created successfully.";
         header("Location: /home.html");
+        exit();
     } else {
         $_SESSION['error'] = "Email already exists!";
         header("Location: /registration.html");
         //echo "Error: " . $sql . "<br>" . $dblink->error;
+        exit();
     }
 }
 
 $dblink->close();
-exit();
 ?>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <h1>Registration Form</h1>
+    <form class="form-container" action="registration.php" method="post">
+      <label for="first_name">First Name:</label>
+      <input
+        type="text"
+        id="first_name"
+        name="first_name"
+        required
+      /><br /><br />
+
+      <label for="last-name">Last Name:</label>
+      <input type="text" id="last_name" name="last_name" required /><br /><br />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required /><br /><br />
+
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+
+      <label for="phone_number">Phone Number:</label>
+      <input
+        type="tel"
+        id="phone_number"
+        name="phone_number"
+        required
+      /><br /><br />
+
+      <input type="submit" value="Submit" />
+    </form>
+    <div id="login-error"><?php echo $_SESSION['error']; ?></div>
+  </body>
+</html>
