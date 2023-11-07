@@ -85,6 +85,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       <input type="submit" value="Submit" />
     </form>
-    <div id="login-error"><?php echo $_SESSION['error']; ?></div>
+    <?php
+      if (isset($_SESSION['error'])) {
+        echo '<div id="login-error">' . $_SESSION['error'] . '</div>';
+        unset($_SESSION['error']);
+      }
+    ?>
   </body>
 </html>
