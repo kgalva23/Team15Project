@@ -7,7 +7,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
+if (isset($_SESSION['userid']) && $_SESSION['userid'])
+{
+    header("Location: /home.php");
+    exit();
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dblink=db_connect();
@@ -22,6 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['Password'])) {
+            $_SESSION['user_id'] = $user['User_ID']; // Assuming the user's ID is stored in the 'ID' column
+            $_SESSION['role'] = $user['Role'];
             $dblink->close();
             header("Location: /home.php");
             exit();
@@ -73,6 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if (isset($_SESSION['error'])) {
         echo '<div id="login-error">' . $_SESSION['error'] . '</div>';
         unset($_SESSION['error']);
+      }
+      if (isset($_SESSION['success'])) {
+        echo '<div id="registration-success">' . $_SESSION['success'] . '</div>';
+        unset($_SESSION['success']);
       }
     ?>
   </body>

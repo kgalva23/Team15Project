@@ -7,6 +7,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (isset($_SESSION['userid']) && $_SESSION['userid'])
+{
+    header("Location: /home.php");
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dblink=db_connect();
 
@@ -34,7 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             $dblink->close();
-            header("Location: /home.php");
+            $_SESSION['success'] = "You're account was made successfully! Please login to continue.";
+            header("Location: /login.php");
             exit();
         } else {
             $dblink->close();
