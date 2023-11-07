@@ -1,6 +1,6 @@
 <?php
 include("functions.php");
-include("nav_bar.php");
+include("/components/nav_bar.php");
 session_start();
 
 ini_set('display_errors', 1);

@@ -40,10 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-
-
-echo "<pre>" . print_r($_SESSION, true) . "</pre>";
-
 ?>
 
 <!DOCTYPE html>
