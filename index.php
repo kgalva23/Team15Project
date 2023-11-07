@@ -7,11 +7,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (isset($_SESSION['userid']) && $_SESSION['userid'])
-{
-    header("Location: /home.php");
-    exit();
-}
+is_logged();
 
 echo "<pre>" . print_r($_SESSION, true) . "</pre>";
 
