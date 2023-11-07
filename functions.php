@@ -13,14 +13,14 @@ function db_connect()
 	return $dblink;
 }
 function is_logged(){
-	if (isset($_SESSION['userid']) && $_SESSION['userid'])
+	if (isset($_SESSION['user_id']) && $_SESSION['user_id'])
 	{
     	header("Location: /home.php");
     	exit();
 	}
 }
 function not_logged(){
-	if (!isset($_SESSION['userid']) && !$_SESSION['userid'])
+	if (!isset($_SESSION['user_id']) && !$_SESSION['user_id'])
 	{
     	header("Location: /index.php");
     	exit();
