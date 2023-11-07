@@ -25,6 +25,18 @@
       <input type="submit" value="Login" /><br />
       <a href="registration.html">Don't have an account?</a>
     </form>
-    <div id="login-error"><?php echo $_SESSION['error']; ?></div>
+    <?php
+      // Start the PHP code block
+      session_start();
+
+      // Check if there's an error message stored in the $_SESSION variable
+      if (isset($_SESSION['error'])) {
+        // Display the error message
+        echo '<div id="login-error">' . $_SESSION['error'] . '</div>';
+
+        // Unset the error message to prevent it from being displayed again
+        unset($_SESSION['error']);
+      }
+    ?>
   </body>
 </html>
