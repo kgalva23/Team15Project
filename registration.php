@@ -28,6 +28,7 @@ if ($result->num_rows > 0) {
         echo "New user created successfully.";
         header("Location: /home.html");
     } else {
+        $_SESSION['error'] = "Email already exists!";
         echo "Error: " . $sql . "<br>" . $dblink->error;
     }
 }

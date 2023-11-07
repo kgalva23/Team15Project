@@ -5,6 +5,7 @@
   </head>
   <body>
     <form
+      id="login-form"
       class="form-container"
       action="index.php"
       method="get"
@@ -12,12 +13,7 @@
     >
       <h1>Login</h1>
       <label for="email">Email: </label>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        required
-      /><br />
+      <input type="email" name="email" placeholder="Email" required /><br />
 
       <label for="password">Password: </label>
       <input
@@ -26,11 +22,9 @@
         placeholder="Password"
         required
       /><br />
-      <input type="submit" value="Login" /><br>
+      <input type="submit" value="Login" /><br />
       <a href="registration.html">Don't have an account?</a>
     </form>
-  </body>
-</html>      
-    </form>
+    <div id="login-error"><?php echo $_SESSION['error']; ?></div>
   </body>
 </html>

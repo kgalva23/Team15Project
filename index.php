@@ -18,7 +18,9 @@ if ($result->num_rows > 0) {
     header("Location: /home.html");
 } else {
     // Email or password do not match
+    $_SESSION['error'] = "Invalid username or password";
     echo "Email or password do not match.";
+    header("Location: /index.html");
 }
 
 $dblink->close();
