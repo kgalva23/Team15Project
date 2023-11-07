@@ -9,8 +9,10 @@ $dblink=db_connect();
 
 // Check if email already exists in table
 $email = $_POST["email"];
-$sql = "SELECT * FROM user WHERE Email = '$email'";
-$result = $dblink->query($sql);
+$stmt = $dblink->prepare("SELECT * FROM user WHERE Email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     // Email already exists, display error message
@@ -19,19 +21,18 @@ if ($result->num_rows > 0) {
     // Email does not exist, insert new user into table
     $first_name = $_POST["first_name"];
     $last_name = $_POST["last_name"];
-    $email = $_POST["email"];
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $phone_number = $_POST["phone_number"];
-    $sql = "INSERT INTO user (First_Name, Last_Name, Email, Password, Phone_Number) VALUES ('$first_name', '$last_name', '$email', '$password', '$phone_number')";
 
-    if ($dblink->query($sql) === TRUE) {
-        //echo "New user created successfully.";
+    $stmt = $dblink->prepare("INSERT INTO user (First_Name, Last_Name, Email, Password, Phone_Number) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $first_name, $last_name, $email, $password, $phone_number);
+
+    if ($stmt->execute()) {
         header("Location: /home.php");
         exit();
     } else {
         $_SESSION['error'] = "Email already exists!";
         header("Location: /registration.php");
-        //echo "Error: " . $sql . "<br>" . $dblink->error;
         exit();
     }
 }
