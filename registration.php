@@ -53,8 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
-    <h1>Registration Form</h1>
     <form class="form-container" action="registration.php" method="post">
+      <h1>Registration Form</h1>
       <label for="first_name">First Name:</label>
       <input
         type="text"
