@@ -7,39 +7,41 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$dblink=db_connect();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $dblink=db_connect();
 
-// Check if email already exists in table
-$email = $_POST["email"];
-$stmt = $dblink->prepare("SELECT * FROM user WHERE Email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
+    // Check if email already exists in table
+    $email = $_POST["email"];
+    $stmt = $dblink->prepare("SELECT * FROM user WHERE Email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($result->num_rows > 0) {
-    // Email already exists, display error message
-    echo "Email already exists in database.";
-} else {
-    // Email does not exist, insert new user into table
-    $first_name = $_POST["first_name"];
-    $last_name = $_POST["last_name"];
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-    $phone_number = $_POST["phone_number"];
-
-    $stmt = $dblink->prepare("INSERT INTO user (First_Name, Last_Name, Email, Password, Phone_Number) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $first_name, $last_name, $email, $password, $phone_number);
-
-    if ($stmt->execute()) {
-        header("Location: /home.php");
-        exit();
+    if ($result->num_rows > 0) {
+        // Email already exists, display error message
+        echo "Email already exists in database.";
     } else {
-        $_SESSION['error'] = "Email already exists!";
-        header("Location: /registration.php");
-        exit();
+        // Email does not exist, insert new user into table
+        $first_name = $_POST["first_name"];
+        $last_name = $_POST["last_name"];
+        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+        $phone_number = $_POST["phone_number"];
+
+        $stmt = $dblink->prepare("INSERT INTO user (First_Name, Last_Name, Email, Password, Phone_Number) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $first_name, $last_name, $email, $password, $phone_number);
+
+        if ($stmt->execute()) {
+            $dblink->close();
+            header("Location: /home.php");
+            exit();
+        } else {
+            $dblink->close();
+            $_SESSION['error'] = "Email already exists!";
+            header("Location: /registration.php");
+            exit();
+        }
     }
 }
-
-$dblink->close();
 ?>
 
 <!DOCTYPE html>

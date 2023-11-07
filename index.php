@@ -5,9 +5,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$dblink=db_connect();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $dblink=db_connect();
     $email = $_POST["email"];
     $password = $_POST["password"];
 
@@ -19,24 +20,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['Password'])) {
-            // Password is correct
+            $dblink->close();
             header("Location: /home.php");
             exit();
         } else {
-            // Password is incorrect
+            $dblink->close();
             $_SESSION['error'] = "Invalid username or password";
             header("Location: /index.php");
             exit();
         }
     } else {
-        // Email does not exist
+        $dblink->close();
         $_SESSION['error'] = "Invalid username or password";
         header("Location: /index.php");
         exit();
     }
 }
 
-$dblink->close();
 ?>
 
 <!DOCTYPE html>
