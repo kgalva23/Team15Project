@@ -38,3 +38,24 @@
 .form-container button[type="submit"]:hover {
   background-color: #45a049;
 }
+
+/* Style the success message */
+.registration-success {
+  color: #4caf50; /* green */
+  background-color: #dff0d8; /* light green */
+  border: 1px solid #d6e9c6; /* green */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+/* Style the error messages */
+.registration-error,
+.login-error {
+  color: #a94442; /* red */
+  background-color: #f2dede; /* light red */
+  border: 1px solid #ebccd1; /* red */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}

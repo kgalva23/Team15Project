@@ -94,7 +94,7 @@ echo "<pre>" . print_r($_SESSION, true) . "</pre>";
     </form>
     <?php
       if (isset($_SESSION['error'])) {
-        echo '<div id="login-error">' . $_SESSION['error'] . '</div>';
+        echo '<div class="registration-error" id="registration-error">' . $_SESSION['error'] . '</div>';
         unset($_SESSION['error']);
       }
     ?>

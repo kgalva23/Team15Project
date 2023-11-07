@@ -76,11 +76,11 @@ echo "<pre>" . print_r($_SESSION, true) . "</pre>";
     </form>
     <?php
       if (isset($_SESSION['error'])) {
-        echo '<div id="login-error">' . $_SESSION['error'] . '</div>';
+        echo '<div class="login-error" id="login-error">' . $_SESSION['error'] . '</div>';
         unset($_SESSION['error']);
       }
       if (isset($_SESSION['success'])) {
-        echo '<div id="registration-success">' . $_SESSION['success'] . '</div>';
+        echo '<div class="registration-success" id="registration-success">' . $_SESSION['success'] . '</div>';
         unset($_SESSION['success']);
       }
     ?>
