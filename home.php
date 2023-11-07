@@ -6,6 +6,13 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
+
+if (!isset($_SESSION['userid']) && !$_SESSION['userid'])
+{
+    header("Location: /index.php");
+    exit();
+}
+
 echo "<pre>" . print_r($_SESSION, true) . "</pre>";
 echo "<pre>" . print_r($_COOKIE, true) . "</pre>";
 echo "<pre>" . print_r($_SERVER, true) . "</pre>";
