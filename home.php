@@ -16,11 +16,11 @@ $_SESSION["active_page"] = "Home";
 <html>
     <header>
         <title>Home Page</title>
+        <link rel="stylesheet" type="text/css" href="/components/nav_bar.css">
     </header>
     <body>
         <h1>Welcome to the home page!</h1>
         <p>You are logged in!</p>
         <?php generate_nav_bar(); ?>
-    <a href="logout.php">Logout</a>
     </body>
 </html>

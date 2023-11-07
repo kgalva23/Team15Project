@@ -91,6 +91,7 @@ echo "<pre>" . print_r($_SESSION, true) . "</pre>";
       /><br /><br />
 
       <input type="submit" value="Submit" />
+      <a href="index.php">Already have an account?</a>
     </form>
     <?php
       if (isset($_SESSION['error'])) {
