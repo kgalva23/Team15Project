@@ -19,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows > 0) {
         // Email already exists, display error message
-        echo "Email already exists in database.";
+        $_SESSION['error'] = "Email already exists!";
+        header("Location: /registration.php");
+        exit();
     } else {
         // Email does not exist, insert new user into table
         $first_name = $_POST["first_name"];
@@ -36,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             $dblink->close();
-            $_SESSION['error'] = "Email already exists!";
+            $_SESSION['error'] = "An error occurred while registering your account. Please try again.";
             header("Location: /registration.php");
             exit();
         }
