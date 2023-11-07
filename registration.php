@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             $dblink->close();
             $_SESSION['success'] = "You're account was made successfully! Please login to continue.";
-            header("Location: /login.php");
+            header("Location: /index.php");
             exit();
         } else {
             $dblink->close();
