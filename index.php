@@ -9,8 +9,6 @@ error_reporting(E_ALL);
 
 is_logged();
 
-echo "<pre>" . print_r($_SESSION, true) . "</pre>";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dblink=db_connect();
     $email = $_POST["email"];
@@ -42,6 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
+
+
+echo "<pre>" . print_r($_SESSION, true) . "</pre>";
 
 ?>
 
