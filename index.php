@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include 'functions.php';
 
 ini_set('display_errors', 1);
@@ -40,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $dblink->close();
 ?>
+
 <!DOCTYPE html>
 <html>
   <head>
