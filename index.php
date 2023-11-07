@@ -14,12 +14,12 @@ $result = $dblink->query($sql);
 
 if ($result->num_rows > 0) {
     // Email and password exist together
-    echo "Successfully logged in.";
+    //echo "Successfully logged in.";
     header("Location: /home.html");
 } else {
     // Email or password do not match
     $_SESSION['error'] = "Invalid username or password";
-    echo "Email or password do not match.";
+    //echo "Email or password do not match.";
     header("Location: /index.html");
 }
 

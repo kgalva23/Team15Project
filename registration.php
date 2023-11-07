@@ -25,11 +25,12 @@ if ($result->num_rows > 0) {
     $sql = "INSERT INTO user (First_Name, Last_Name, Email, Password, Phone_Number) VALUES ('$first_name', '$last_name', '$email', '$password', '$phone_number')";
 
     if ($dblink->query($sql) === TRUE) {
-        echo "New user created successfully.";
+        //echo "New user created successfully.";
         header("Location: /home.html");
     } else {
         $_SESSION['error'] = "Email already exists!";
-        echo "Error: " . $sql . "<br>" . $dblink->error;
+        header("Location: /registration.html");
+        //echo "Error: " . $sql . "<br>" . $dblink->error;
     }
 }
 
