@@ -22,18 +22,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['Password'])) {
             // Password is correct
-            header("Location: /home.html");
+            header("Location: /home.php");
             exit();
         } else {
             // Password is incorrect
             $_SESSION['error'] = "Invalid username or password";
-            header("Location: /index.html");
+            header("Location: /index.php");
             exit();
         }
     } else {
         // Email does not exist
         $_SESSION['error'] = "Invalid username or password";
-        header("Location: /index.html");
+        header("Location: /index.php");
         exit();
     }
 }

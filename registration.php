@@ -26,11 +26,11 @@ if ($result->num_rows > 0) {
 
     if ($dblink->query($sql) === TRUE) {
         //echo "New user created successfully.";
-        header("Location: /home.html");
+        header("Location: /home.php");
         exit();
     } else {
         $_SESSION['error'] = "Email already exists!";
-        header("Location: /registration.html");
+        header("Location: /registration.php");
         //echo "Error: " . $sql . "<br>" . $dblink->error;
         exit();
     }
