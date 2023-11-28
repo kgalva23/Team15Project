@@ -63,36 +63,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="bg-light">
   <div class="container">
     <div class="row mt-5">
-      <div class="col-lg-4 bg-white m-auto">
-        <form id="login-form" action="registration.php" method="post">
+      <div class="col-lg-4 bg-white m-auto mt-5 shadow-lg rounded p-3">
+        <form id="registration-form" action="registration.php" method="post">
           <h1 class="text-center pt-3 mb-3">Register</h1>
 
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 shadow-sm">
             <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name" required />
             <label for="first_name">First name: </label>
           </div>
 
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 shadow-sm">
             <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name" required />
             <label for="last_name">Last name: </label>
           </div>
 
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 shadow-sm">
             <input type="email" class="form-control" id="email" name="email" placeholder="Email" required />
             <label for="email">Email: </label>
           </div>
 
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 shadow-sm">
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
             <label for="password">Password: </label>
           </div>
 
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 shadow-sm">
             <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Phone number" required />
             <label for="phone_number">Phone number: </label>
           </div>
 
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-center mb-3">
             <input type="submit" value="Register" class="btn btn-primary btn-lg" />
           </div>
           <p class="text-center">Already have an account? <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="index.php">Login</a></p>

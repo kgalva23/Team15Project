@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     if (password_verify($password, $user['Password'])) {
-      $_SESSION['user_id'] = $user['User_ID']; // Assuming the user's ID is stored in the 'ID' column
+      $_SESSION['user_id'] = $user['User_ID'];
       $_SESSION['role'] = $user['Role'];
       $dblink->close();
       header("Location: /home.php");
@@ -55,12 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="bg-light">
   <div class="container">
     <div class="row mt-5">
-      <div class="col-lg-4 bg-white m-auto">
+      <div class="col-lg-4 bg-white m-auto shadow-lg rounded p-3 mt-5">
 
         <form id="row g-3 needs-validation" action="index.php" method="post" autocomplete="on">
           <h1 class="text-center pt-3 mb-3">Login</h1>
 
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 shadow-sm">
             <input type="email" class="form-control" id="email" name="email" placeholder="Email" required />
             <label for="email">Email: </label>
             <div class="invalid-feedback">
@@ -68,12 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
           </div>
 
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-3 shadow-sm">
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
             <label for="password">Password: </label>
           </div>
 
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-center mb-3">
             <input type="submit" value="Login" class="btn btn-primary btn-lg" />
           </div>
 
