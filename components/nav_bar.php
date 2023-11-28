@@ -10,7 +10,7 @@ function generate_nav_bar()
         "Logout" => "logout.php",
     );
 
-    echo '<nav class="navbar navbar-expand-lg bg-body tertiary">';
+    echo '<nav class="navbar navbar-expand-lg bg-body tertiary bg-white shadow-lg border">';
     echo '<div class="container-fluid">';
     echo "<a class='navbar-brand' href='home.php'>Home</a>";
     echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">';
@@ -26,6 +26,12 @@ function generate_nav_bar()
                   </li>";
         }
     }
+    echo "<li class='nav-item'> 
+            <a class='navbar-brand' href='account.php'>
+                <img src='images/$_SESSION[profile_picture]' alt='Profile Picture' height=50 class='rounded-circle'>
+            </a>
+          </li>";
+
     if ($_SESSION["role"] == "Admin") {
         if ($page == $_SESSION["active_page"]) {
             echo "<li class='nav-item'>

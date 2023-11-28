@@ -25,3 +25,14 @@ function not_logged()
 		exit();
 	}
 }
+function loadProfilePicture($image_id)
+{
+	$dblink = db_connect();
+	$stmt = $dblink->prepare("SELECT * FROM image WHERE Image_ID = ?");
+	$stmt->bind_param("i", $image_id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$profile_picture = $result->fetch_assoc();
+	$dblink->close();
+	return $profile_picture['Image'];
+}

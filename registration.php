@@ -64,32 +64,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="container">
     <div class="row mt-5">
       <div class="col-lg-4 bg-white m-auto mt-5 shadow-lg rounded p-3">
-        <form id="registration-form" action="registration.php" method="post">
+        <form class="needs-validation" novalidate id="registration-form" action="registration.php" method="post">
           <h1 class="text-center pt-3 mb-3">Register</h1>
 
-          <div class="form-floating mb-3 shadow-sm">
+          <?php
+          if (isset($_SESSION['error'])) {
+            echo '<div class="alert alert-danger alert-dismissable fade show" id="error">' . $_SESSION['error'] . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+            unset($_SESSION['error']);
+          }
+          ?>
+
+          <div class="form-floating mb-3">
             <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First name" required />
             <label for="first_name">First name: </label>
+            <div class="invalid-feedback">
+              Please provide a valid first name.
+            </div>
           </div>
 
-          <div class="form-floating mb-3 shadow-sm">
+          <div class="form-floating mb-3">
             <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last name" required />
             <label for="last_name">Last name: </label>
+            <div class="invalid-feedback">
+              Please provide a valid last name.
+            </div>
           </div>
 
-          <div class="form-floating mb-3 shadow-sm">
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required />
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required pattern="^[^@]+@[^@]+\.[^@]+$" />
             <label for="email">Email: </label>
+            <div class="invalid-feedback">
+              Please provide a valid email. (Format: example@email.com)
+            </div>
           </div>
 
-          <div class="form-floating mb-3 shadow-sm">
+          <div class="form-floating mb-3">
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
             <label for="password">Password: </label>
+            <div class="invalid-feedback">
+              Please provide a valid password.
+            </div>
           </div>
 
-          <div class="form-floating mb-3 shadow-sm">
-            <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Phone number" required />
+          <div class="form-floating mb-3">
+            <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Phone number" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
             <label for="phone_number">Phone number: </label>
+            <div class="invalid-feedback">
+              Please provide a valid phone number. (Format: 123-456-7890)
+            </div>
           </div>
 
           <div class="d-flex justify-content-center mb-3">
@@ -97,16 +121,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>
           <p class="text-center">Already have an account? <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="index.php">Login</a></p>
 
-          <?php
-          if (isset($_SESSION['error'])) {
-            echo '<div class="registration-error" id="registration-error">' . $_SESSION['error'] . '</div>';
-            unset($_SESSION['error']);
-          }
-          ?>
         </form>
       </div>
     </div>
   </div>
+  <script>
+    /* Bootstrap validation (not working)*/
+    (() => {
+      'use strict'
+
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>

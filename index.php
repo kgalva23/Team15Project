@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (password_verify($password, $user['Password'])) {
       $_SESSION['user_id'] = $user['User_ID'];
       $_SESSION['role'] = $user['Role'];
+      $_SESSION['profile_picture'] = loadProfilePicture($user['Image_ID']);
       $dblink->close();
       header("Location: /home.php");
       exit();
@@ -57,10 +58,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="row mt-5">
       <div class="col-lg-4 bg-white m-auto shadow-lg rounded p-3 mt-5">
 
-        <form id="row g-3 needs-validation" action="index.php" method="post" autocomplete="on">
+        <form class="row g-3 needs-validation" novalidate action="index.php" method="post" autocomplete="on">
           <h1 class="text-center pt-3 mb-3">Login</h1>
 
-          <div class="form-floating mb-3 shadow-sm">
+          <?php
+          if (isset($_SESSION['error'])) {
+            echo '<div class="alert alert-danger alert-dismissable fade show" id="error">' . $_SESSION['error'] . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+            unset($_SESSION['error']);
+          }
+          ?>
+
+          <div class="form-floating mb-3">
             <input type="email" class="form-control" id="email" name="email" placeholder="Email" required />
             <label for="email">Email: </label>
             <div class="invalid-feedback">
@@ -68,9 +78,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
           </div>
 
-          <div class="form-floating mb-3 shadow-sm">
+          <div class="form-floating mb-3">
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
             <label for="password">Password: </label>
+            <div class="invalid-feedback">
+              Please provide a valid password.
+            </div>
           </div>
 
           <div class="d-flex justify-content-center mb-3">
@@ -78,27 +91,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>
 
           <p class="text-center">Don't have an account? <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="registration.php">Register</a></p>
-          <?php
-          if (isset($_SESSION['error'])) {
-            echo '<div class="login-error" id="login-error">' . $_SESSION['error'] . '</div>';
-            unset($_SESSION['error']);
-          }
-          if (isset($_SESSION['success'])) {
-            echo '<div class="registration-success" id="registration-success">' . $_SESSION['success'] . '</div>';
-            unset($_SESSION['success']);
-          }
-          ?>
+
         </form>
 
       </div>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
   <script>
     /* Bootstrap validation (not working)*/
-    /* (() => {
+    (() => {
       'use strict'
 
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -115,8 +116,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           form.classList.add('was-validated')
         }, false)
       })
-    })() */
+    })();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 
 </html>
