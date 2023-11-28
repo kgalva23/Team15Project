@@ -19,28 +19,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $section == 'addInventory') {
     $price = $dblink->real_escape_string($_POST['price']);
     $stock = $dblink->real_escape_string($_POST['stock']);
 
-    $target_dir = "./images/";
+    $target_dir = "../images/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $uploadOk = 1;
 
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
 
-        $imageInsertSql = "INSERT INTO image (Image) VALUES ('" . $target_file . "')";
+        $imageInsertSql = "INSERT INTO image (Image) VALUES ('" . basename($_FILES["image"]["name"]) . "')";
         if ($dblink->query($imageInsertSql) === TRUE) {
             $last_image_id = $dblink->insert_id;
             $itemInsertSql = "INSERT INTO item (Name, Description, Company, Price, Stock, Image_ID) VALUES ('$name', '$description', '$company', '$price', '$stock', '$last_image_id')";
             if ($dblink->query($itemInsertSql) === TRUE) {
                 echo "New item added successfully";
-            } else {
-                echo "Error: " . $itemInsertSql . "<br>" . $dblink->error;
             }
-        } else {
-            echo "Error: " . $imageInsertSql . "<br>" . $dblink->error;
         }
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
+    } 
 }
 
 
@@ -53,8 +47,6 @@ if ($section == 'modifyInventory') {
         while ($row = $result->fetch_assoc()) {
             $items[] = $row;
         }
-    } else {
-        echo "Error fetching items: " . $dblink->error;
     }
 }
 

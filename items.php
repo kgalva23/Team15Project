@@ -84,7 +84,7 @@ $dblink->close();
             <?php foreach ($items as $item): ?>
                 <div class="col-md-6 mb-4">
                     <div class="card card-flex">
-                        <img src="<?php echo htmlspecialchars($item['ImagePath']); ?>" alt="<?php echo 'Image not found for: ' . htmlspecialchars($item['Name']); ?>">
+                        <img src="../images/<?php echo htmlspecialchars($item['ImagePath']); ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($item['Name']); ?></h5>
                             <p class="card-text"><?php echo htmlspecialchars($item['Description']); ?></p>
