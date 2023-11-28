@@ -69,7 +69,7 @@ function change_phone_number($phone_number)
 
 function upload_picture($image)
 {
-    $upload_dir = '/var/www/images/';
+    $upload_dir = '/images/';
     $filename = basename($image['name']);
     $target_file = $upload_dir . $filename;
 
