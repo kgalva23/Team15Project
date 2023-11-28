@@ -60,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         case 'change_profile_picture':
             if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-                echo $_FILES['profile_picture']['name'];
                 if (upload_picture($_FILES['profile_picture'])) {
                     change_profile_picture($_FILES['profile_picture']['name']);
                     $_SESSION['success'] = "Profile picture successfully changed!";
