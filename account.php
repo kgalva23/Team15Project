@@ -17,9 +17,6 @@ print_r($_SESSION);
 echo "</pre>";
 */
 
-echo 'upload_max_filesize: ' . ini_get('upload_max_filesize') . '<br>';
-echo 'post_max_size: ' . ini_get('post_max_size');
-
 $_SESSION["active_page"] = "Account";
 
 $user = loadUser();
