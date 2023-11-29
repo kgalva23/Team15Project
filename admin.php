@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $section == 'addInventory') {
     $price = $dblink->real_escape_string($_POST['price']);
     $stock = $dblink->real_escape_string($_POST['stock']);
 
-    $target_dir = "/images/";
+    $target_dir = "../images/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $uploadOk = 1;
@@ -66,15 +66,19 @@ if ($section == 'modifyInventory') {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Admin Page</title>
+    <style>
+        .container {
+            max-width: 80%;
+        }
+    </style>
 </header>
 
-<body>
+<body class="bg-light">
+    <div class="container mt-4">
     <h1>Welcome to the admin page!</h1>
-    
 
     <?php generate_nav_bar(); ?>
     <p>Which admin task would you like to perform?</p>
-
 
     <a href="admin.php?section=modifyUsers" class="btn btn-primary">Modify User Accounts</a>
         <a href="admin.php?section=addInventory" class="btn btn-success">Add New Item to Inventory</a>
@@ -124,6 +128,7 @@ if ($section == 'modifyInventory') {
         </form>
     </div>
 <?php endif; ?>
+</div>
 <script src="/js/modify_items.js"></script>
 </body>
 
