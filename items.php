@@ -44,9 +44,7 @@ $dblink->close();
             flex-grow: 1;
         }
         .container {
-            max-width: 100%;
-            margin-left: 0;
-            padding-left: 15px;
+            max-width: 80%;
         }
     </style>
     <script>
@@ -58,16 +56,12 @@ $dblink->close();
 
 
 </head>
-<body>
-<div class="container mt-4">
-    <h1>Items Page</h1>
-    <?php generate_nav_bar(); ?>
-
-
-
-    
-    
-    <div class="row mt-3 mb-3">
+<body class="bg-light">
+    <div class="container mt-4">
+        <h1>Items Page</h1>
+        <?php generate_nav_bar(); ?>
+        <div class="container">
+    <div class="row mb-3 ">
         <div class="col-md-6">
             <input type="text" id="searchItems" class="form-control" placeholder="Search items...">
         </div>
@@ -96,6 +90,7 @@ $dblink->close();
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
         </div>
     </div>
 

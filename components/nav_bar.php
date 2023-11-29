@@ -10,11 +10,14 @@ function generate_nav_bar()
         "Logout" => "logout.php",
     );
 
-    echo '<nav class="navbar navbar-expand-lg bg-body tertiary bg-white shadow-lg border">';
-    echo '<div class="container-fluid">';
-    echo "<a class='navbar-brand' href='home.php'>Home</a>";
-    echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">';
-    echo '<ul class="navbar-nav me-auto mb-2 mb-lg-0">';
+    echo '<nav class="navbar navbar-expand-lg navbar-fixed-top bg-body tertiary bg-white shadow-lg border align-items-center" style="height: 60px;">
+<div class="container-fluid">
+    <a class="navbar-brand" href="home.php">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">';
     foreach ($pages as $page => $url) {
         if ($page == $_SESSION["active_page"]) {
             echo "<li class='nav-item'>
@@ -28,7 +31,7 @@ function generate_nav_bar()
     }
     echo "<li class='nav-item'> 
             <a class='navbar-brand' href='account.php'>
-                <img src='/images/$_SESSION[profile_picture]' alt='Profile Picture' height=50 class='rounded-circle'>
+                <img src='" . $_SESSION['s3url'] . $_SESSION['profile_picture'] . "' alt='err' height='50' width='50' class='rounded-circle'>
             </a>
           </li>";
 

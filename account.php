@@ -4,12 +4,17 @@ session_start();
 include 'functions.php';
 include 'functions_account.php';
 include("components/nav_bar.php");
+include 's3bucket.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 not_logged();
+
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
 
 $_SESSION["active_page"] = "Account";
 
@@ -60,21 +65,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         case 'change_profile_picture':
             if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-                if (upload_picture($_FILES['profile_picture'])) {
-                    change_profile_picture($_FILES['profile_picture']['name']);
-                    $_SESSION['success'] = "Profile picture successfully changed!";
+                $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['profile_picture']['name']));
+                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadfile)) {
+                    if (uploadToS3($uploadfile, $_FILES['profile_picture']['name'])) {
+                        $image_id = addImage($_FILES['profile_picture']['name']);
+                        $_SESSION['profile_picture'] = $_FILES['profile_picture']['name'];
+                        change_profile_picture($image_id);
+                        $_SESSION['success'] = "Profile picture successfully changed!";
                 }
             } else {
-                $_SESSION['error'] = "Error uploading file!";
+                $_SESSION['error'] = "Failed to move uploaded file!";
             }
-            break;
+        } else {
+            $_SESSION['error'] = "Error uploading file!";
+        }
+        break;
         case 'change_preset-profile_picture':
-            if ($_POST['profile_picture'] === $profile_picture) {
-                $_SESSION['error'] = "Profile picture cannot be the same as the current profile picture";
-            } else {
-                change_profile_picture($_POST['profile_picture']);
-                $_SESSION['success'] = "Profile picture successfully changed!";
-            }
+            change_profile_picture($_POST['profile_picture']);
+            $_SESSION['success'] = "Profile picture successfully changed!";
             break;
     }
 
@@ -91,14 +99,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Account Settings</title>
+    <style>
+        .container {
+            max-width: 80%;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
-    <h1>Welcome to your account page!</h1>
+    <div class="container mt-4">
+    <h1 class="text-start">Welcome to your account page!</h1>
     <?php generate_nav_bar(); ?>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 bg-white m-auto mt-3 mb-5 shadow-lg rounded p-5">
+            <div class="col-lg-12 bg-white m-auto mt-3 mb-5 shadow-lg rounded pb-3">
                 <div class="row">
                     <div class="col-lg-6">
 
@@ -206,11 +220,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col-lg-6">
                         <h1 class="text-center mb-1">Profile Picture</h1>
-                        <img src="/images/<?php echo $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
+                        <img src="<?php echo $_SESSION['s3url'] . $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
                     </div>
                 </div>
             </div>
-
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

@@ -3,9 +3,9 @@ session_start();
 
 include 'functions.php';
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 is_logged();
 
@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION['user_id'] = $user['User_ID'];
       $_SESSION['role'] = $user['Role'];
       $_SESSION['profile_picture'] = loadProfilePicture($user['Image_ID']);
+      $_SESSION['s3url'] = "https://team15project.s3.us-east-2.amazonaws.com/";
       $dblink->close();
       header("Location: /home.php");
       exit();
@@ -67,6 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>';
             unset($_SESSION['error']);
+          }
+            if (isset($_SESSION['success'])) {
+            echo '<div class="alert alert-success alert-dismissable fade show" id="success">' . $_SESSION['success'] . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+            unset($_SESSION['success']);
           }
           ?>
 
