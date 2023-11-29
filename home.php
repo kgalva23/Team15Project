@@ -11,10 +11,13 @@ not_logged();
 
 $_SESSION["active_page"] = "Home";
 
+
+
+/*
 echo "<pre>";
 print_r($_SESSION);
 echo "</pre>";
-
+*/
 ?>
 
 <html>
