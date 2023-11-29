@@ -85,7 +85,7 @@ $dblink->close();
                             <p class="card-text">Company: <?php echo htmlspecialchars($item['Company']); ?></p>
                             <p class="card-text">Price: $<?php echo htmlspecialchars(number_format($item['Price'], 2)); ?></p>
                             <p class="card-text">Available: <?php echo htmlspecialchars($item['Stock']); ?></p>
-                            <button class="btn btn-success">Add to Cart</button>
+                            <button class="btn btn-success add-to-cart" data-item-id="<?php echo $item['Item_ID']; ?>">Add to Cart</button>
                         </div>
                     </div>
                 </div>
