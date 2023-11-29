@@ -4,17 +4,18 @@ session_start();
 include 'functions.php';
 include 'functions_account.php';
 include("components/nav_bar.php");
+include 's3bucket.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 not_logged();
-/*
+
 echo "<pre>";
 print_r($_SESSION);
 echo "</pre>";
-*/
+
 $_SESSION["active_page"] = "Account";
 
 $user = loadUser();
@@ -64,14 +65,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         case 'change_profile_picture':
             if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-                if (upload_picture($_FILES['profile_picture'])) {
-                    change_profile_picture($_FILES['profile_picture']['name']);
-                    $_SESSION['success'] = "Profile picture successfully changed!";
+                $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['profile_picture']['name']));
+                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadfile)) {
+                    if (uploadToS3($uploadfile, $_FILES['profile_picture']['name'])) {
+                        $image_id = addImage($_FILES['profile_picture']['name']);
+                        $_SESSION['profile_picture'] = $_FILES['profile_picture']['name'];
+                        change_profile_picture($image_id);
+                        $_SESSION['success'] = "Profile picture successfully changed!";
                 }
             } else {
-                $_SESSION['error'] = "Error uploading file!";
+                $_SESSION['error'] = "Failed to move uploaded file!";
             }
-            break;
+        } else {
+            $_SESSION['error'] = "Error uploading file!";
+        }
+        break;
         case 'change_preset-profile_picture':
             change_profile_picture($_POST['profile_picture']);
             $_SESSION['success'] = "Profile picture successfully changed!";
@@ -212,7 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col-lg-6">
                         <h1 class="text-center mb-1">Profile Picture</h1>
-                        <img src="./images/<?php echo $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
+                        <img src="<?php echo $_SESSION['s3url'] . $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
                     </div>
                 </div>
             </div>

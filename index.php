@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $_SESSION['user_id'] = $user['User_ID'];
       $_SESSION['role'] = $user['Role'];
       $_SESSION['profile_picture'] = loadProfilePicture($user['Image_ID']);
+      $_SESSION['s3url'] = "https://team15project.s3.us-east-2.amazonaws.com/";
       $dblink->close();
       header("Location: /home.php");
       exit();
