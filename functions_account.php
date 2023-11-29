@@ -122,7 +122,7 @@ function change_profile_picture($image)
 function loadProfilePictures()
 {
     $dblink = db_connect();
-    $stmt = $dblink->prepare("SELECT * FROM image WHERE Image_ID > 1 AND Image_ID < 35");
+    $stmt = $dblink->prepare("SELECT * FROM image WHERE Image_ID > 38 AND Image_ID < 73");
     $stmt->execute();
     $result = $stmt->get_result();
     $dblink->close();

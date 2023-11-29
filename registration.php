@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_name = $_POST["last_name"];
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $phone_number = $_POST["phone_number"];
-    $image_id = rand(2, 34);
+    $image_id = rand(39, 72);
 
     $stmt = $dblink->prepare("INSERT INTO user (First_Name, Last_Name, Email, Password, Phone_Number, Image_ID) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sssssi", $first_name, $last_name, $email, $password, $phone_number, $image_id);
