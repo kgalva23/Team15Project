@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $section == 'addInventory') {
     $price = $dblink->real_escape_string($_POST['price']);
     $stock = $dblink->real_escape_string($_POST['stock']);
 
-    $target_dir = "../images/";
+    $target_dir = "./images/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $uploadOk = 1;

@@ -212,7 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="col-lg-6">
                         <h1 class="text-center mb-1">Profile Picture</h1>
-                        <img src="../images/<?php echo $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
+                        <img src="./images/<?php echo $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
                     </div>
                 </div>
             </div>
