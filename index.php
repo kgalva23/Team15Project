@@ -68,6 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>';
             unset($_SESSION['error']);
           }
+            if (isset($_SESSION['success'])) {
+            echo '<div class="alert alert-success alert-dismissable fade show" id="success">' . $_SESSION['success'] . '
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+            unset($_SESSION['success']);
+          }
           ?>
 
           <div class="form-floating mb-3">

@@ -106,13 +106,14 @@ function upload_picture($image)
 function change_profile_picture($image)
 {
     $dblink = db_connect();
-    $stmt = $dblink->prepare("SELECT * FROM user WHERE User_ID = ?");
-    $stmt->bind_param("i", $_SESSION['user_id']);
+
+    $stmt = $dblink->prepare("SELECT * FROM image WHERE Image = ?");
+    $stmt->bind_param("s", $image);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    $stmt = $dblink->prepare("UPDATE user SET Image_ID = ?");
-    $stmt->bind_param("i", $user['Image_ID']);
+    $image_id = $stmt->get_result()->fetch_assoc()['Image_ID'];
+
+    $stmt = $dblink->prepare("UPDATE user SET Image_ID = ? WHERE User_ID = ?");
+    $stmt->bind_param("ii", $image_id, $_SESSION['user_id']);
     $stmt->execute();
     $dblink->close();
 }

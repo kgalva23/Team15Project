@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php generate_nav_bar(); ?>
     <div class="container">
         <div class="row">
-            <div class="col-lg-10 bg-white m-auto mt-3 mb-5 shadow-lg rounded pb-3">
+            <div class="col-lg-12 bg-white m-auto mt-3 mb-5 shadow-lg rounded pb-3">
                 <div class="row">
                     <div class="col-lg-6">
 
