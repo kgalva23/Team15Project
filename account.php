@@ -73,12 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             break;
         case 'change_preset-profile_picture':
-            if ($_POST['profile_picture'] === $profile_picture) {
-                $_SESSION['error'] = "Profile picture cannot be the same as the current profile picture";
-            } else {
-                change_profile_picture($_POST['profile_picture']);
-                $_SESSION['success'] = "Profile picture successfully changed!";
-            }
+            change_profile_picture($_POST['profile_picture']);
+            $_SESSION['success'] = "Profile picture successfully changed!";
             break;
     }
 
