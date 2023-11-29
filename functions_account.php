@@ -117,7 +117,6 @@ function change_profile_picture($image)
     $stmt->bind_param("ii", $image_id, $_SESSION['user_id']);
     $stmt->execute();
     $dblink->close();
-    
 }
 
 function loadProfilePictures()

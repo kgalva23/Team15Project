@@ -31,7 +31,7 @@ function generate_nav_bar()
     }
     echo "<li class='nav-item'> 
             <a class='navbar-brand' href='account.php'>
-                <img src='../images/$_SESSION[profile_picture]' alt='err' height=50 width=50 class='rounded-circle'>
+                <img src='../../images/$_SESSION[profile_picture]' alt='err' height=50 width=50 class='rounded-circle'>
             </a>
           </li>";
 
