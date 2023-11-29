@@ -12,10 +12,10 @@ error_reporting(E_ALL);
 
 not_logged();
 
-echo "<pre>";
+/*echo "<pre>";
 print_r($_SESSION);
 echo "</pre>";
-
+*/
 $_SESSION["active_page"] = "Account";
 
 $user = loadUser();
@@ -72,14 +72,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['profile_picture'] = $_FILES['profile_picture']['name'];
                         change_profile_picture($image_id);
                         $_SESSION['success'] = "Profile picture successfully changed!";
+                    }
+                } else {
+                    $_SESSION['error'] = "Failed to move uploaded file!";
                 }
             } else {
-                $_SESSION['error'] = "Failed to move uploaded file!";
+                $_SESSION['error'] = "Error uploading file!";
             }
-        } else {
-            $_SESSION['error'] = "Error uploading file!";
-        }
-        break;
+            break;
         case 'change_preset-profile_picture':
             change_profile_picture($_POST['profile_picture']);
             $_SESSION['success'] = "Profile picture successfully changed!";
@@ -108,122 +108,122 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="bg-light">
     <div class="container mt-4">
-    <h1 class="text-start">Welcome to your account page!</h1>
-    <?php generate_nav_bar(); ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 bg-white m-auto mt-3 mb-5 shadow-lg rounded pb-3">
-                <div class="row">
-                    <div class="col-lg-6">
+        <h1 class="text-start">Welcome to your account page!</h1>
+        <?php generate_nav_bar(); ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 bg-white m-auto mt-3 mb-5 shadow-lg rounded pb-3">
+                    <div class="row">
+                        <div class="col-lg-6">
 
-                        <h1 class="text-center mb-5">Account Settings</h1>
+                            <h1 class="text-center mb-5">Account Settings</h1>
 
-                        <?php
-                        if (isset($_SESSION['error']) && isset($_SESSION['success'])) {
-                            echo '<div class="alert alert-danger alert-dismissable fade show" id="error">' . $_SESSION['error'] . '
+                            <?php
+                            if (isset($_SESSION['error']) && isset($_SESSION['success'])) {
+                                echo '<div class="alert alert-danger alert-dismissable fade show" id="error">' . $_SESSION['error'] . '
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                               </div>';
-                            unset($_SESSION['error']);
-                            unset($_SESSION['success']);
-                        } elseif (isset($_SESSION['error'])) {
-                            echo '<div class="alert alert-danger alert-dismissable fade show" id="error">' . $_SESSION['error'] . '
+                                unset($_SESSION['error']);
+                                unset($_SESSION['success']);
+                            } elseif (isset($_SESSION['error'])) {
+                                echo '<div class="alert alert-danger alert-dismissable fade show" id="error">' . $_SESSION['error'] . '
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                               </div>';
-                            unset($_SESSION['error']);
-                        }
+                                unset($_SESSION['error']);
+                            }
 
-                        if (isset($_SESSION['success'])) {
-                            echo '<div class="alert alert-success alert-dismissable fade show" id="success">' . $_SESSION['success'] . '
+                            if (isset($_SESSION['success'])) {
+                                echo '<div class="alert alert-success alert-dismissable fade show" id="success">' . $_SESSION['success'] . '
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                               </div>';
-                            unset($_SESSION['success']);
-                        }
-                        ?>
+                                unset($_SESSION['success']);
+                            }
+                            ?>
 
-                        <form id="first-name-form" action="account.php" method="post" class="col">
-                            <input type="hidden" name="action" value="change_first_name">
-                            <div class="input-group mb-3 shadow-sm">
-                                <span class="input-group-text">First name</span>
-                                <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $user['First_Name'] ?>" />
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
-                            </div>
-                        </form>
+                            <form id="first-name-form" action="account.php" method="post" class="col">
+                                <input type="hidden" name="action" value="change_first_name">
+                                <div class="input-group mb-3 shadow-sm">
+                                    <span class="input-group-text">First name</span>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $user['First_Name'] ?>" />
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
+                                </div>
+                            </form>
 
-                        <form id="last-name-form" action="account.php" method="post">
-                            <input type="hidden" name="action" value="change_last_name">
-                            <div class="input-group mb-3 shadow-sm">
-                                <span class="input-group-text">Last name</span>
-                                <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $user['Last_Name'] ?>" />
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
-                            </div>
-                        </form>
+                            <form id="last-name-form" action="account.php" method="post">
+                                <input type="hidden" name="action" value="change_last_name">
+                                <div class="input-group mb-3 shadow-sm">
+                                    <span class="input-group-text">Last name</span>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $user['Last_Name'] ?>" />
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
+                                </div>
+                            </form>
 
-                        <form id="email-form" action="account.php" method="post">
-                            <input type="hidden" name="action" value="change_email">
-                            <div class="input-group mb-3 shadow-sm">
-                                <span class="input-group-text">Email</span>
-                                <input type="email" class="form-control" id="email" name="email" value="<?php echo $user['Email'] ?>" />
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
-                            </div>
-                        </form>
+                            <form id="email-form" action="account.php" method="post">
+                                <input type="hidden" name="action" value="change_email">
+                                <div class="input-group mb-3 shadow-sm">
+                                    <span class="input-group-text">Email</span>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $user['Email'] ?>" />
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
+                                </div>
+                            </form>
 
-                        <form id="password-form" action="account.php" method="post">
-                            <input type="hidden" name="action" value="change_password">
-                            <div class="input-group mb-3 shadow-sm">
-                                <span class="input-group-text">Password</span>
-                                <input type="password" class="form-control" id="password" name="password" />
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
-                            </div>
-                        </form>
+                            <form id="password-form" action="account.php" method="post">
+                                <input type="hidden" name="action" value="change_password">
+                                <div class="input-group mb-3 shadow-sm">
+                                    <span class="input-group-text">Password</span>
+                                    <input type="password" class="form-control" id="password" name="password" />
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
+                                </div>
+                            </form>
 
-                        <form id="phone-number-form" action="account.php" method="post">
-                            <input type="hidden" name="action" value="change_phone_number">
-                            <div class="input-group mb-3 shadow-sm">
-                                <span class="input-group-text">Phone number</span>
-                                <input type="tel" class="form-control" id="phone_number" name="phone_number" value="<?php echo $user['Phone_Number'] ?>" />
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
-                            </div>
-                        </form>
+                            <form id="phone-number-form" action="account.php" method="post">
+                                <input type="hidden" name="action" value="change_phone_number">
+                                <div class="input-group mb-3 shadow-sm">
+                                    <span class="input-group-text">Phone number</span>
+                                    <input type="tel" class="form-control" id="phone_number" name="phone_number" value="<?php echo $user['Phone_Number'] ?>" />
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
+                                </div>
+                            </form>
 
-                        <form id="profile-picture-form" action="account.php" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="action" value="change_profile_picture">
-                            <div class="input-group mb-3 shadow-sm">
-                                <span class="input-group-text">Profile Picture</span>
-                                <input type="file" class="form-control" id="profile_picture" name="profile_picture" />
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
-                            </div>
-                        </form>
+                            <form id="profile-picture-form" action="account.php" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="action" value="change_profile_picture">
+                                <div class="input-group mb-3 shadow-sm">
+                                    <span class="input-group-text">Profile Picture</span>
+                                    <input type="file" class="form-control" id="profile_picture" name="profile_picture" />
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
+                                </div>
+                            </form>
 
-                        <form id="preset-profile-picture-form" action="account.php" method="post">
-                            <input type="hidden" name="action" value="change_preset-profile_picture">
-                            <div class="input-group mb-3 shadow-sm">
-                                <span class="input-group-text">Preset Profile Picture</span>
-                                <select class="form-select" id="profile_picture" name="profile_picture">
+                            <form id="preset-profile-picture-form" action="account.php" method="post">
+                                <input type="hidden" name="action" value="change_preset-profile_picture">
+                                <div class="input-group mb-3 shadow-sm">
+                                    <span class="input-group-text">Preset Profile Picture</span>
+                                    <select class="form-select" id="profile_picture" name="profile_picture">
 
-                                    <option selected aria-label="disabled">Choose preset profile picture</option>
-                                    <?php
-                                    foreach (loadProfilePictures() as $preset_profile_picture) {
-                                        echo '<option value="' . $preset_profile_picture['Image'] . '">' . $preset_profile_picture['Image'] . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                                <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
-                            </div>
-                        </form>
+                                        <option selected aria-label="disabled">Choose preset profile picture</option>
+                                        <?php
+                                        foreach (loadProfilePictures() as $preset_profile_picture) {
+                                            echo '<option value="' . $preset_profile_picture['Image'] . '">' . $preset_profile_picture['Image'] . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Change</button>
+                                </div>
+                            </form>
 
-                        <form action="delete_account.php" method="">
-                            <div class="d-flex justify-content-center mt-3">
-                                <input type="submit" value="Delete Account" class="btn btn-danger btn-lg" />
-                            </div>
-                        </form>
+                            <form action="delete_account.php" method="">
+                                <div class="d-flex justify-content-center mt-3">
+                                    <input type="submit" value="Delete Account" class="btn btn-danger btn-lg" />
+                                </div>
+                            </form>
 
-                    </div>
-                    <div class="col-lg-6">
-                        <h1 class="text-center mb-1">Profile Picture</h1>
-                        <img src="<?php echo $_SESSION['s3url'] . $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
+                        </div>
+                        <div class="col-lg-6">
+                            <h1 class="text-center mb-1">Profile Picture</h1>
+                            <img src="<?php echo $_SESSION['s3url'] . $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
