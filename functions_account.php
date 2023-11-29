@@ -111,11 +111,13 @@ function change_profile_picture($image)
     $stmt->bind_param("s", $image);
     $stmt->execute();
     $image_id = $stmt->get_result()->fetch_assoc()['Image_ID'];
+    $_SESSION['profile_picture'] = $image_id;
 
     $stmt = $dblink->prepare("UPDATE user SET Image_ID = ? WHERE User_ID = ?");
     $stmt->bind_param("ii", $image_id, $_SESSION['user_id']);
     $stmt->execute();
     $dblink->close();
+    
 }
 
 function loadProfilePictures()
