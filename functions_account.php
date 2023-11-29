@@ -12,6 +12,7 @@ function loadUser()
     $dblink->close();
     return $user;
 }
+
 function change_first_name($first_name)
 {
     $dblink = db_connect();
@@ -68,7 +69,7 @@ function change_phone_number($phone_number)
 
 function upload_picture($image)
 {
-    $upload_dir = './images/';
+    $upload_dir = '/images/';
     $filename = basename($image['name']);
     $target_file = $upload_dir . $filename;
 
@@ -110,8 +111,8 @@ function change_profile_picture($image)
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
-    $stmt = $dblink->prepare("UPDATE image SET Image = ? WHERE Image_ID = ?");
-    $stmt->bind_param("si", $image, $user['Image_ID']);
+    $stmt = $dblink->prepare("UPDATE user SET Image_ID = ?");
+    $stmt->bind_param("i", $user['Image_ID']);
     $stmt->execute();
     $dblink->close();
 }
