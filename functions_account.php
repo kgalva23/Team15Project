@@ -102,3 +102,17 @@ function loadProfilePictures()
     $dblink->close();
     return $result;
 }
+
+function delete_account()
+{
+    $dblink = db_connect();
+    $stmt = $dblink->prepare("DELETE FROM user WHERE User_ID = ?");
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $dblink->close();
+    session_unset();
+    session_destroy();
+
+    session_start();
+    $_SESSION['success'] = "Account deleted successfully!";
+}

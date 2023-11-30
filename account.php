@@ -12,11 +12,6 @@ error_reporting(E_ALL);
 
 not_logged();
 
-echo "<pre>";
-print_r($_SESSION);
-echo "</pre>";
-
-
 $_SESSION["active_page"] = "Account";
 
 $user = loadUser();
@@ -85,6 +80,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             change_preset_profile_picture($_POST['profile_picture']);
             $_SESSION['profile_picture'] = $_POST['profile_picture'];
             $_SESSION['success'] = "Profile picture successfully changed!";
+            break;
+
+        case 'delete_account':
+            delete_account();
             break;
     }
 
@@ -213,9 +212,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             </form>
 
-                            <form action="delete_account.php" method="">
-                                <div class="d-flex justify-content-center mt-3">
-                                    <input type="submit" value="Delete Account" class="btn btn-danger btn-lg" />
+                            <form id="delete-account-form" action="account.php" method="post">
+                                <input type="hidden" name="action" value="delete_account">
+                                <div class="d-flex justify-content-center">
+                                    <input type="button" value="Delete Account" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#deleteAccountModal" />
+                                </div>
+
+                                <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content bg-white shadow-lg border">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5 text-center" id="deleteAccountModalLabel">Are you sure you want to delete your account? <strong>This action cannot be undone.</strong></h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex justify-content-center mt-3">
+                                                <button type="button" class="btn btn-secondary btn-lg m-auto" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-danger btn-lg m-auto">Confirm Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
 
