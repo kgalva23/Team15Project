@@ -11,8 +11,6 @@ not_logged();
 
 $_SESSION["active_page"] = "Home";
 
-$_SESSION["active_page"] = "Home";
-
 $dblink = db_connect();
 
 $sql = "SELECT item.*, image.Image AS ImagePath FROM item LEFT JOIN image ON item.Image_ID = image.Image_ID";
