@@ -24,6 +24,7 @@ $dblink->close();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,14 +36,17 @@ $dblink->close();
             flex-direction: row;
             align-items: center;
         }
+
         .card-flex img {
             width: 150px;
             height: auto;
             margin-right: 15px;
         }
+
         .card-body {
             flex-grow: 1;
         }
+
         .container {
             max-width: 80%;
         }
@@ -52,50 +56,52 @@ $dblink->close();
     </script>
     <script src="/js/search.js"></script>
     <script src="/js/filter.js"></script>
-    
+
 
 
 </head>
+
 <body class="bg-light">
     <div class="container mt-4">
         <h1>Items Page</h1>
         <?php generate_nav_bar(); ?>
         <div class="container">
-    <div class="row mb-3 ">
-        <div class="col-md-6">
-            <input type="text" id="searchItems" class="form-control" placeholder="Search items...">
-        </div>
-        <div class="col-md-6">
-            <select id="sortSelect" class="form-select">
-                <option value="default">Sort By...</option>
-                <option value="price_low_high">Price Low to High</option>
-                <option value="price_high_low">Price High to Low</option>
-            </select>
-        </div>
-    </div>
+            <div class="row mb-3 ">
+                <div class="col-md-6">
+                    <input type="text" id="searchItems" class="form-control" placeholder="Search items...">
+                </div>
+                <div class="col-md-6">
+                    <select id="sortSelect" class="form-select">
+                        <option value="default">Sort By...</option>
+                        <option value="price_low_high">Price Low to High</option>
+                        <option value="price_high_low">Price High to Low</option>
+                    </select>
+                </div>
+            </div>
 
-        <div class="row" id="itemContainer">
-            <?php foreach ($items as $item): ?>
-                <div class="col-md-6 mb-4">
-                    <div class="card card-flex">
-                        <img src="../images/<?php echo htmlspecialchars($item['ImagePath']); ?>">
-                        <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($item['Name']); ?></h5>
-                            <p class="card-text"><?php echo htmlspecialchars($item['Description']); ?></p>
-                            <p class="card-text">Company: <?php echo htmlspecialchars($item['Company']); ?></p>
-                            <p class="card-text">Price: $<?php echo htmlspecialchars(number_format($item['Price'], 2)); ?></p>
-                            <p class="card-text">Available: <?php echo htmlspecialchars($item['Stock']); ?></p>
-                            <button class="btn btn-success add-to-cart" data-item-id="<?php echo $item['Item_ID']; ?>">Add to Cart</button>
+            <div class="row" id="itemContainer">
+                <?php foreach ($items as $item) : ?>
+                    <div class="col-md-6 mb-4">
+                        <div class="card card-flex">
+                            <img src="<?php echo $_SESSION['s3url'] . htmlspecialchars($item['ImagePath']); ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($item['Name']); ?></h5>
+                                <p class="card-text"><?php echo htmlspecialchars($item['Description']); ?></p>
+                                <p class="card-text">Company: <?php echo htmlspecialchars($item['Company']); ?></p>
+                                <p class="card-text">Price: $<?php echo htmlspecialchars(number_format($item['Price'], 2)); ?></p>
+                                <p class="card-text">Available: <?php echo htmlspecialchars($item['Stock']); ?></p>
+                                <button class="btn btn-success add-to-cart" data-item-id="<?php echo $item['Item_ID']; ?>">Add to Cart</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
+
 </html>

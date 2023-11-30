@@ -36,3 +36,14 @@ function loadProfilePicture($image_id)
 	$dblink->close();
 	return $profile_picture['Image'];
 }
+
+function addImage($image)
+{
+	$dblink = db_connect();
+	$stmt = $dblink->prepare("INSERT INTO image (Image) VALUES (?)");
+	$stmt->bind_param("s", $image);
+	$stmt->execute();
+	$image_id = $dblink->insert_id;
+	$dblink->close();
+	return $image_id;
+}

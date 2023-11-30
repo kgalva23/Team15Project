@@ -76,23 +76,29 @@ function change_profile_picture($image_id)
     $dblink->close();
 }
 
+function change_preset_profile_picture($image)
+{
+    $dblink = db_connect();
+    $stmt = $dblink->prepare("SELECT * from image WHERE Image=?");
+    $stmt->bind_param("s", $image);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $image = $result->fetch_assoc();
+    $image_id = $image['Image_ID'];
+
+    $stmt = $dblink->prepare("UPDATE user SET Image_ID = ? WHERE User_ID = ?");
+    $stmt->bind_param("ii", $image_id, $_SESSION['user_id']);
+    $stmt->execute();
+    $dblink->close();
+}
+
+
 function loadProfilePictures()
 {
     $dblink = db_connect();
-    $stmt = $dblink->prepare("SELECT * FROM image WHERE Image_ID > 38 AND Image_ID < 73");
+    $stmt = $dblink->prepare("SELECT * FROM image WHERE Image_ID > 0 AND Image_ID < 34");
     $stmt->execute();
     $result = $stmt->get_result();
     $dblink->close();
     return $result;
-}
-
-function addImage($image)
-{
-    $dblink = db_connect();
-    $stmt = $dblink->prepare("INSERT INTO image (Image) VALUES (?)");
-    $stmt->bind_param("s", $image);
-    $stmt->execute();
-    $image_id = $dblink->insert_id;
-    $dblink->close();
-    return $image_id;
 }

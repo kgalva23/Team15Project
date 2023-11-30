@@ -12,10 +12,10 @@ error_reporting(E_ALL);
 
 not_logged();
 
-/*echo "<pre>";
+echo "<pre>";
 print_r($_SESSION);
 echo "</pre>";
-*/
+
 
 $_SESSION["active_page"] = "Account";
 
@@ -82,7 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             break;
         case 'change_preset-profile_picture':
-            change_profile_picture($_POST['profile_picture']);
+            change_preset_profile_picture($_POST['profile_picture']);
+            $_SESSION['profile_picture'] = $_POST['profile_picture'];
             $_SESSION['success'] = "Profile picture successfully changed!";
             break;
     }
@@ -220,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         </div>
                         <div class="col-lg-6">
-                            <h1 class="text-center mb-1">Profile Picture</h1>
+                            <h1 class="text-center mb-5">Profile Picture</h1>
                             <img src="<?php echo $_SESSION['s3url'] . $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
                         </div>
                     </div>

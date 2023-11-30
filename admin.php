@@ -1,6 +1,7 @@
 <?php
 include("functions.php");
 include("components/nav_bar.php");
+include "s3bucket.php";
 session_start();
 
 ini_set('display_errors', 1);
@@ -12,14 +13,30 @@ not_logged();
 $_SESSION["active_page"] = "Admin";
 $section = $_GET['section'] ?? 'default';
 $dblink = db_connect();
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $section == 'addInventory') {
-    $name = $dblink->real_escape_string($_POST['name']);
-    $description = $dblink->real_escape_string($_POST['description']);
-    $company = $dblink->real_escape_string($_POST['company']);
-    $price = $dblink->real_escape_string($_POST['price']);
-    $stock = $dblink->real_escape_string($_POST['stock']);
 
-    $target_dir = "./images/";
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && $section == 'addInventory') {
+    $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['image']['name']));
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
+        if (uploadToS3($uploadfile, $_FILES['image']['name'])) {
+            $image_id = addImage($_FILES['image']['name']);
+            $name = $dblink->real_escape_string($_POST['name']);
+            $description = $dblink->real_escape_string($_POST['description']);
+            $company = $dblink->real_escape_string($_POST['company']);
+            $price = $dblink->real_escape_string($_POST['price']);
+            $stock = $dblink->real_escape_string($_POST['stock']);
+
+            $itemInsertSql = "INSERT INTO item (Name, Description, Company, Price, Stock, Image_ID) VALUES ('$name', '$description', '$company', '$price', '$stock', '$image_id')";
+            if ($dblink->query($itemInsertSql) === TRUE) {
+                echo "New item added successfully";
+            }
+        }
+    }
+
+
+
+    /*$target_dir = "./images/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $uploadOk = 1;
@@ -29,12 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $section == 'addInventory') {
         $imageInsertSql = "INSERT INTO image (Image) VALUES ('" . basename($_FILES["image"]["name"]) . "')";
         if ($dblink->query($imageInsertSql) === TRUE) {
             $last_image_id = $dblink->insert_id;
-            $itemInsertSql = "INSERT INTO item (Name, Description, Company, Price, Stock, Image_ID) VALUES ('$name', '$description', '$company', '$price', '$stock', '$last_image_id')";
-            if ($dblink->query($itemInsertSql) === TRUE) {
-                echo "New item added successfully";
-            }
         }
-    } 
+    }*/
 }
 
 
@@ -67,62 +80,61 @@ if ($section == 'modifyInventory') {
 
 <body class="bg-light">
     <div class="container mt-4">
-    <h1>Welcome to the admin page!</h1>
+        <h1>Welcome to the admin page!</h1>
 
-    <?php generate_nav_bar(); ?>
-    <p>Which admin task would you like to perform?</p>
+        <?php generate_nav_bar(); ?>
+        <p>Which admin task would you like to perform?</p>
 
-    <a href="admin.php?section=modifyUsers" class="btn btn-primary">Modify User Accounts</a>
+        <a href="admin.php?section=modifyUsers" class="btn btn-primary">Modify User Accounts</a>
         <a href="admin.php?section=addInventory" class="btn btn-success">Add New Item to Inventory</a>
 
-        <?php if ($section == 'modifyUsers'): ?>
+        <?php if ($section == 'modifyUsers') : ?>
             <div id="userSection">
-            <h2>Current Active Accounts:</h2>
+                <h2>Current Active Accounts:</h2>
 
-<table class="form-control" name="docType">
-    <?php
-    
+                <table class="form-control" name="docType">
+                    <?php
 
-    $sql = "SELECT * FROM user";
-    $result = $dblink->query($sql) or die("Something went wrong with: $sql<br>" . $dblink_->error);
-    $counter = 1;
 
-    //While loop to go through each account in the database
-    while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
-        $buttonName = "button" . (string)$counter;
-        $c_firstName = $data['First_Name'];
-        $c_lastName = $data['Last_Name'];
-        $c_email = $data['Email'];
-        echo '<p> Name: ' . $c_firstName . ' ' . $c_lastName . '<br />Email: ' . $c_email . '</p>';
-        echo "<form method='post'> 
+                    $sql = "SELECT * FROM user";
+                    $result = $dblink->query($sql) or die("Something went wrong with: $sql<br>" . $dblink_->error);
+                    $counter = 1;
+
+                    //While loop to go through each account in the database
+                    while ($data = $result->fetch_array(MYSQLI_ASSOC)) {
+                        $buttonName = "button" . (string)$counter;
+                        $c_firstName = $data['First_Name'];
+                        $c_lastName = $data['Last_Name'];
+                        $c_email = $data['Email'];
+                        echo '<p> Name: ' . $c_firstName . ' ' . $c_lastName . '<br />Email: ' . $c_email . '</p>';
+                        echo "<form method='post'> 
                     <input type='submit' name=$buttonName value='Remove Account!'/>";
 
-        //check to see which button is clicked
-        if (isset($_POST[$buttonName])) {
-            $dblink->query("DELETE FROM user WHERE First_Name='$c_firstName'");
-        }
-        $counter++;
-    }
-    ?>
-</table>
+                        //check to see which button is clicked
+                        if (isset($_POST[$buttonName])) {
+                            $dblink->query("DELETE FROM user WHERE First_Name='$c_firstName'");
+                        }
+                        $counter++;
+                    }
+                    ?>
+                </table>
             </div>
-    <?php elseif ($section == 'addInventory'): ?>
-    <div id="addInventorySection">
-        <h2>Add New Inventory Item</h2>
-        <form action="admin.php?section=addInventory" method="post" enctype="multipart/form-data">
-            Name: <input type="text" name="name" required><br>
-            Description: <input type="text" name="description" required><br>
-            Company: <input type="text" name="company" required><br>
-            Price: <input type="number" step="0.01" name="price" required><br>
-            Stock: <input type="number" name="stock" required><br>
-            Image: <input type="file" name="image" required><br>
-            <input type="submit" value="Add Item" class="btn btn-primary">
-        </form>
+        <?php elseif ($section == 'addInventory') : ?>
+            <div id="addInventorySection">
+                <h2>Add New Inventory Item</h2>
+                <form action="admin.php?section=addInventory" method="post" enctype="multipart/form-data">
+                    Name: <input type="text" name="name" required><br>
+                    Description: <input type="text" name="description" required><br>
+                    Company: <input type="text" name="company" required><br>
+                    Price: <input type="number" step="0.01" name="price" required><br>
+                    Stock: <input type="number" name="stock" required><br>
+                    Image: <input type="file" name="image" required><br>
+                    <input type="submit" value="Add Item" class="btn btn-primary">
+                </form>
+            </div>
+        <?php endif; ?>
     </div>
-<?php endif; ?>
-</div>
-<script src="/js/modify_items.js"></script>
+    <script src="/js/modify_items.js"></script>
 </body>
 
 </html>
-
