@@ -61,16 +61,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
         case 'change_profile_picture':
             if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-                $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['profile_picture']['name']));
-                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadfile)) {
-                    if (uploadToS3($uploadfile, $_FILES['profile_picture']['name'])) {
-                        $image_id = addImage($_FILES['profile_picture']['name']);
-                        $_SESSION['profile_picture'] = $_FILES['profile_picture']['name'];
-                        change_profile_picture($image_id);
-                        $_SESSION['success'] = "Profile picture successfully changed!";
-                    }
+                if ($_FILES['profile_picture']['size'] > 1024 * 1024) {
+                    $_SESSION['error'] = "File size can not be greater than 1MB!";
                 } else {
-                    $_SESSION['error'] = "Failed to move uploaded file!";
+                    $uploadfile = tempnam(sys_get_temp_dir(), sha1($_FILES['profile_picture']['name']));
+                    if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadfile)) {
+                        if (uploadToS3($uploadfile, $_FILES['profile_picture']['name'])) {
+                            $image_id = addImage($_FILES['profile_picture']['name']);
+                            $_SESSION['profile_picture'] = $_FILES['profile_picture']['name'];
+                            change_profile_picture($image_id);
+                            $_SESSION['success'] = "Profile picture successfully changed!";
+                        }
+                    } else {
+                        $_SESSION['error'] = "Failed to move uploaded file!";
+                    }
                 }
             } else {
                 $_SESSION['error'] = "Error uploading file!";
