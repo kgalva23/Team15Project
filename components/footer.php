@@ -3,7 +3,7 @@
 function generate_footer()
 {
     echo '
-            <footer class="bg-dark text-light">
+            <footer class="bg-dark text-light shadow">
                 <div class="container py-0.1">
                     <div class="row">
                         <div class="col-md-4">
