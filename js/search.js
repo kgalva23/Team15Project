@@ -11,6 +11,14 @@ function performSearch() {
     return item.Name.toLowerCase().includes(searchTerm);
   });
   displayItems(filteredItems);
+
+  //JavaScript to trigger modal on button click, this shows that item has been added to cart
+  document.querySelectorAll('.openModalBtn').forEach(button => {
+    button.addEventListener('click', function() {
+      var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+      myModal.show(); // Show the modal when the button is clicked
+    });    
+  });
 }
 
 function displayItems(itemsToDisplay) {
@@ -31,7 +39,7 @@ function displayItems(itemsToDisplay) {
                     <p class="card-text">Price: $${Number(item.Price).toFixed(
                       2
                     )}</p>
-                    <button class="btn btn-success">Add to Cart</button>
+                    <button class="btn openModalBtn">Add to Cart</button>
                 </div>
             </div>
         `;
