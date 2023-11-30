@@ -50,6 +50,20 @@ $dblink->close();
         .card-body {
             flex-grow: 1;
         }
+
+        /* Style the modal button to be green */
+        .openModalBtn {
+        background-color: #28a745; /* Green color */
+        border-color: #28a745; /* Border color */
+        color: #fff; /* Text color */
+        }
+        
+        /* Hover effect for the green button */
+        .openModalBtn:hover {
+        background-color: #218838; /* Darker shade of green on hover */
+        border-color: #1e7e34; /* Darker shade of border color on hover */
+        color: #fff; /* Text color */
+        }
     </style>
     <script>
         var items = <?php echo json_encode($items); ?>;
@@ -99,7 +113,7 @@ $dblink->close();
                                 <p class="card-text">Available:
                                     <?php echo htmlspecialchars($item['Stock']); ?>
                                 </p>
-                                <button class="btn <?php echo $item['Item_ID']; ?> openModalBtn"
+                                <button class="btn openModalBtn"
                                     data-item-id="<?php echo $item['Item_ID']; ?>">Add to Cart</button>
                                 <!-- Button to trigger the modal -->
                             </div>
@@ -139,7 +153,6 @@ $dblink->close();
 
     <script>
         //JavaScript to trigger modal on button click, this shows that item has been added to cart
-        //JavaScript to trigger modal on button click, this shows that item has been added to cart
         document.querySelectorAll('.openModalBtn').forEach(button => {
             button.addEventListener('click', function () {
                 var myModal = new bootstrap.Modal(document.getElementById('myModal'));
@@ -152,7 +165,7 @@ $dblink->close();
         // JavaScript to trigger modal closing on button click
         document.getElementById('modalclose').addEventListener('click', function () {
             var myModal = bootstrap.Modal.getInstance(document.getElementById('myModal'));
-            myModal.hide(); // Hide the modal when the button is clicked
+            myModal.hide(); // Hide the modal when the button is 
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
