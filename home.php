@@ -60,7 +60,7 @@ $dblink->close();
         border-color: #28a745; /* Border color */
         color: #fff; /* Text color */
         }
-        
+
         /* Hover effect for the green button */
         .openModalBtn:hover {
         background-color: #218838; /* Darker shade of green on hover */
@@ -74,6 +74,7 @@ $dblink->close();
 
     <script src="/js/search.js"></script>
     <script src="/js/filter.js"></script>
+    <script src="/js/shopping_cart.js"></script>
 </header>
 
 <body class="bg-light min-vh-100">
