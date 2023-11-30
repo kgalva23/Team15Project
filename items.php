@@ -56,6 +56,7 @@ $dblink->close();
     </script>
     <script src="/js/search.js"></script>
     <script src="/js/filter.js"></script>
+    <script src="/js/shopping_cart.js"></script>
 
 
 
