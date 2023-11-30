@@ -39,7 +39,7 @@ function displayItems(itemsToDisplay) {
                     <p class="card-text">Price: $${Number(item.Price).toFixed(
                       2
                     )}</p>
-                    <button class="btn openModalBtn">Add to Cart</button>
+                    <button class="btn openModalBtn" data-item-id='${item.Item_ID}'>Add to Cart</button>
                 </div>
             </div>
         `;
