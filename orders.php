@@ -1,82 +1,75 @@
 <?php
-function db_connect()
-{
-	$hostname = "team15projectdb.mysql.database.azure.com";
-	$username = "team15admin";
-	$password = "0keC16&k";
-	$db = "team15";
-	$dblink = new mysqli($hostname, $username, $password, $db);
-	if (mysqli_connect_errno()) {
-		die("Error connecting to database: " . mysqli_connect_error());
-	}
-	return $dblink;
-}
-function is_logged()
-{
-	if (isset($_SESSION['user_id'])) {
-		header("Location: /home.php");
-		exit();
-	}
-}
-function not_logged()
-{
-	if (!isset($_SESSION['user_id'])) {
-		header("Location: /index.php");
-		exit();
-	}
-}
-function loadProfilePicture($image_id)
-{
-	$dblink = db_connect();
-	$stmt = $dblink->prepare("SELECT * FROM image WHERE Image_ID = ?");
-	$stmt->bind_param("i", $image_id);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$profile_picture = $result->fetch_assoc();
-	$dblink->close();
-	return $profile_picture['Image'];
-}
+session_start();
+include_once 'functions.php';
 
-function addImage($image)
-{
-	$dblink = db_connect();
-	$stmt = $dblink->prepare("INSERT INTO image (Image) VALUES (?)");
-	$stmt->bind_param("s", $image);
-	$stmt->execute();
-	$image_id = $dblink->insert_id;
-	$dblink->close();
-	return $image_id;
-}
+not_logged();
 
-function getOrders()
-{
-    $dblink = db_connect();
-    
-    $query = "
-        SELECT o.Order_ID, o.User_ID, o.Order_Date, o.Shipping_Date, o.Address_ID, 
-               o.Order_Status, o.Total, o.Payment_ID, o.Discount_code_ID,
-               p.Payment_ID, p.User_ID as Payment_User_ID, p.Name as Payment_Name,
-               p.Type, p.Number, p.Expiration_Date, p.Security_Code,
-               COUNT(oi.Order_Item_ID) as Item_Count
-        FROM `order` o
-        JOIN payment p ON o.Payment_ID = p.Payment_ID
-        LEFT JOIN order_item oi ON o.Order_ID = oi.Order_ID
-        GROUP BY o.Order_ID
-    ";
-    
-    $result = $dblink->query($query);
-    
-    if (!$result) {
-        die("Error fetching orders: " . $dblink->error);
-    }
-    
-    $orders = [];
-    
-    while ($row = $result->fetch_assoc()) {
-        $orders[] = $row;
-    }
-    
-    $dblink->close();
-    
-    return $orders;
-}
+$orders = getOrders();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Orders</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Order Date</th>
+                    <th>Shipping Date</th>
+                    <th>Address ID</th>
+                    <th>Order Status</th>
+                    <th>Total</th>
+                    <th>Payment ID</th>
+                    <th>Discount Code ID</th>
+                    <th>Payment User ID</th>
+                    <th>Payment Name</th>
+                    <th>Type</th>
+                    <th>Number</th>
+                    <th>Expiration Date</th>
+                    <th>Security Code</th>
+                    <th>Item Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($orders as $order): ?>
+                    <tr>
+                        <td><?php echo $order['Order_ID']; ?></td>
+                        <td><?php echo $order['User_ID']; ?></td>
+                        <td><?php echo $order['Order_Date']; ?></td>
+                        <td><?php echo $order['Shipping_Date']; ?></td>
+                        <td><?php echo $order['Address_ID']; ?></td>
+                        <td><?php echo $order['Order_Status']; ?></td>
+                        <td><?php echo $order['Total']; ?></td>
+                        <td><?php echo $order['Payment_ID']; ?></td>
+                        <td><?php echo $order['Discount_code_ID']; ?></td>
+                        <td><?php echo $order['Payment_User_ID']; ?></td>
+                        <td><?php echo $order['Payment_Name']; ?></td>
+                        <td><?php echo $order['Type']; ?></td>
+                        <td><?php echo $order['Number']; ?></td>
+                        <td><?php echo $order['Expiration_Date']; ?></td>
+                        <td><?php echo $order['Security_Code']; ?></td>
+                        <td><?php echo $order['Item_Count']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
