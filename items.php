@@ -73,8 +73,8 @@ $dblink->close();
     <script>
         var items = <?php echo json_encode($items); ?>;
     </script>
-    <script src="/js/search.js"></script>
     <script src="/js/filter.js"></script>
+    <script src="/js/search.js"></script>
     <script src="/js/shopping_cart.js"></script>
 
 </head>
