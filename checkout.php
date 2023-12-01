@@ -70,7 +70,9 @@ $dblink->close();
 
     <div class="container  min-vw-75  min-vh-100 bg-white shadow-lg pt-3">
 
-        <h1>Checkout Page</h1>
+        <div class="container mb-3 border-bottom">
+            <h2>Checkout</h2>
+        </div>
         <?php if (empty($itemDetails)) : ?>
             <p>Your cart is empty.</p>
         <?php else : ?>

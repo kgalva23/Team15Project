@@ -113,12 +113,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php generate_header(); ?>
     <div class="container min-vw-75  min-vh-100 bg-white shadow-lg pt-3">
 
+        <div class="container mb-3 border-bottom">
+            <h2>Account Settings</h2>
+        </div>
+
 
         <div class="col-lg-12">
             <div class="row">
                 <div class="col-lg-6">
-
-                    <h1 class="text-center mb-5">Account Settings</h1>
 
                     <?php
                     if (isset($_SESSION['error']) && isset($_SESSION['success'])) {
@@ -237,8 +239,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 </div>
                 <div class="col-lg-6">
-                    <h1 class="text-center mb-5">Profile Picture</h1>
+
                     <img src="<?php echo $_SESSION['s3url'] . $_SESSION['profile_picture'] ?>" class="img-thumbnail rounded shadow" alt="Profile Picture">
+                    <h1 class="text-center">Current Profile Picture</h1>
                 </div>
             </div>
         </div>

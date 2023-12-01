@@ -26,7 +26,9 @@ $orders = getOrders();
     <?php generate_header(); ?>
 
     <div class="container min-vw-75  min-vh-100 bg-white shadow-lg pt-3">
-        <h1 class="mb-4">Orders</h1>
+        <div class="container mb-3 border-bottom">
+            <h2>Orders</h2>
+        </div>
 
         <table class="table">
             <thead>
