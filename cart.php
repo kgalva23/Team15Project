@@ -42,8 +42,8 @@ $dblink->close();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="/components/footer.css" rel="stylesheet">
     <link href="/style.css" rel="stylesheet">
     <title>Shopping Cart</title>
     <script src="/js/shopping_cart.js"></script>
@@ -65,17 +65,17 @@ $dblink->close();
     </style>
 </head>
 
-<body>
+<body class="bg-light min-vh-100">
     <?php generate_header(); ?>
 
-    <div class="container">
+    <div class="container min-vw-75  min-vh-100 bg-white shadow-lg pt-3">
 
         <h1>Shopping Cart</h1>
-        <?php if (empty($itemDetails)): ?>
+        <?php if (empty($itemDetails)) : ?>
             <p>Your cart is empty.</p>
-        <?php else: ?>
+        <?php else : ?>
             <div class="cart-items">
-                <?php foreach ($itemDetails as $item): ?>
+                <?php foreach ($itemDetails as $item) : ?>
                     <div class="row">
                         <div class="col-md-8 col-lg-6 mx-auto">
                             <div class="cart-item">
@@ -99,8 +99,7 @@ $dblink->close();
                 <?php endforeach; ?>
                 <div class="cart-total">
                     <h3 id="totalPrice">Total Price: $0.00</h3>
-                    <button class="checkout" id="checkoutButton"
-                        onclick="window.location.href='checkout.php';">Checkout</button>
+                    <button class="checkout" id="checkoutButton" onclick="window.location.href='checkout.php';">Checkout</button>
                 </div>
 
             </div>
@@ -109,6 +108,10 @@ $dblink->close();
     </div>
 
     <?php generate_footer(); ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 
 </html>
