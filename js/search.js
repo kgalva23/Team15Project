@@ -17,6 +17,8 @@ function performSearch() {
     button.addEventListener('click', function() {
       var myModal = new bootstrap.Modal(document.getElementById('myModal'));
       myModal.show(); // Show the modal when the button is clicked
+      var itemId = this.getAttribute('data-item-id');
+      addToCart(itemId);
     });    
   });
 }
